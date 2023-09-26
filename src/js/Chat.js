@@ -8,7 +8,7 @@ import settingReminders from './settingReminders';
 
 export default class Chat {
   constructor() {
-  this.request = new Fetch('https://ahj-diplom-back-th6d.onrender.com');
+    this.request = new Fetch('https://ahj-diplom-back-th6d.onrender.com/new-user');
     // this.request = new Fetch('http://localhost:3000/new-user');
     this.popup = document.querySelector('.popup');
     this.loginForm = document.querySelector('.login__form');
