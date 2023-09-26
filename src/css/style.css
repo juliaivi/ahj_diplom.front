@@ -1,0 +1,642 @@
+body {   
+  margin: 0;
+  padding: 0;   
+  background-color: #fffcfc;
+  font-family: Arial, Helvetica, sans-serif;
+  font-size: 16px;
+}
+
+button {
+  cursor: pointer; 
+}
+
+button:hover {
+  background: green;
+  color: white;
+}
+
+span {
+  margin: 0px 3px;
+} 
+
+.d__none {
+  display: none;
+}
+
+.container {
+  position: relative;
+  width: 900px;
+  height: 600px;
+  /* height: 100vh; */
+  border: 1px solid;
+  background: url(../img/1.jpg) no-repeat;
+  background-size: cover;
+  margin: 0px auto;
+}
+
+.connection__you {
+  align-self: end;
+  background-color: #d6fddc;
+}
+
+/*popup*/
+.popup { 
+  width: 500px;
+  height: 240px;
+  margin: auto;
+  padding: 28px;
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0; 
+  border: 1px solid;
+  border-radius: 5px;
+  border: 1px solid;
+  background: white;
+  z-index: 1;
+}
+ 
+.popup__form {
+  display: flex;
+  flex-direction: column;
+}
+
+.popup__title {
+  text-align: center;
+}
+/* btn */
+.btn {
+  margin: 16px;
+  padding: 9px;
+  border-radius: 11px;
+  background: white;
+}
+
+.btn:hover {
+  background: rgb(65, 160, 73);
+  color: #edefec;
+}
+
+/* section */
+.section { 
+  width: 30%;
+  height: 100%;
+  position: absolute;
+  left: 0px;
+  box-sizing: border-box;
+  padding: 15px;
+  border: 2px solid; 
+  background-color: white;
+  overflow-y: scroll;
+  overflow-x: hidden;
+}
+
+.section::-webkit-scrollbar {
+  width: 0;
+}
+
+.section__box {
+  display: flex; 
+  position: relative;
+  flex-direction: column;
+  background: white;
+}
+
+.section__header {
+  display: flex; 
+  width: 90%;
+  height: 24px;
+  justify-content: space-between;
+  padding: 13px;
+  background: #fcf8f8;
+}
+
+.section__title {
+  line-height: 25px;
+}
+
+  /* user */
+.user {
+  display: flex;
+}
+
+.user__icon {
+  width: 38px;
+  height: 38px;
+  border: 1px solid;
+  border-radius: 22px;
+  background: #3c3a3a;
+}
+
+.user__img {
+  width: 39px;
+  height: 39px;
+  border: 1px solid;
+  border-radius: 21px;
+  background: #3c3a3a;
+  background-size: 25px;
+}
+
+.user__name {
+  position: relative;
+  top: 8px;
+  left: 17px;
+}
+
+  /* file */
+.file {
+  height: 48px;
+  margin: 15px;
+}
+
+.file:hover {
+  background-color: #c9c9c9;
+}
+
+.file__qentity, .count__file {
+  vertical-align: super;
+}
+
+.file__qentity:hover {
+  text-decoration: underline;
+}
+
+  /* location */
+.location {
+  padding-left: 15px;
+}
+
+  /*  chat__conteiner */
+.chat__conteiner {
+  width: 70%;
+  height: 100%;
+  position: absolute;
+  right: 0;
+}
+
+  /* header */
+.header {
+  display: flex;
+  justify-content: space-between;
+  width: 628px;
+  height: 48px;
+  background: #f5f1f1;
+  position: relative;
+  box-sizing: border-box;
+  border: 1px solid;
+}
+
+.header__box {
+  display: flex;
+  padding: 3px;
+}
+
+.header__buttons {
+  line-height: 63px;
+}
+
+ /* title */
+.title {
+  margin: 15px 0;
+}
+
+.title:hover {
+  color: blue;
+}
+/* chat */
+.chat {
+  display: flex;
+  flex-direction: column;
+  height: calc(600px - 110px);
+  /* height: calc(100vh - 110px); */
+  margin: 5px;
+  position: relative;
+  overflow: scroll;
+  overflow-y: scroll;
+  overflow-x: hidden;
+  align-items: baseline;
+}
+
+/*form ............................*/
+.form {
+  display: flex;
+  justify-content: space-between;
+  position: absolute; 
+  bottom: 0px;
+  right: 0;
+  height: 50px;
+  width: 628px;
+  padding: 0px 11px;
+  box-sizing: border-box;
+  border: 1px solid;
+ 
+  background: #ebebeb;
+}
+
+.form__chat__input {
+  position: absolute;
+  bottom: 5px;
+  left: 88px;
+  width: 65%;
+  height: auto;
+  min-height: 24px;
+  padding: 6px 20px;
+  max-height: 300px;
+  overflow-y: auto;
+  outline: none;
+  border: none;
+  border-radius: 5px;
+  font-size: 14px;
+  background-color: #fffcfc;
+}
+
+.form__box {
+  display: flex;
+  line-height: 54px;
+  margin: auto -4px;
+}
+/*smile*/
+.smile {
+  display: flex;
+}
+
+.smile__icon, .clip__icon {
+  padding: 6px;
+  margin: auto;
+}
+/*emoji*/
+.emoji__container {
+  width: 250px;
+  height: 150px;
+  position: absolute;
+  bottom: 57px;
+  left: 20px; 
+  background: white;
+  border-radius: 5px;
+  z-index: 1;
+}
+.emoji__list {
+  display: flex;
+  padding: 5px;
+  flex-wrap: wrap;
+}
+
+.emoji {
+  margin: 5px;
+  border: 1px solid white;
+}
+
+.emoji:hover {
+  border: 1px solid rgb(3, 143, 38);
+  border-radius: 10px;
+}
+
+/*add__file*/
+.files__box {
+  border: 1px solid;
+}
+.files__box {
+  width: 166px;
+  height: 180px;
+  position: absolute;
+  bottom: 57px;
+  left: 50px;
+  border: 1px solid;
+  background: white;
+  border-radius: 5px;
+  z-index: 1;
+}
+
+.add__files, 
+.add__photo, 
+.contact, 
+.survey {
+  display: flex;
+  margin: 20px 9px;
+}
+
+.add__files__icon, 
+.add__photo__icon,
+.contact__icon,
+.survey__icon {
+  height: 20px;
+}
+
+.overlapped { 
+  width: 100%;
+  height: 23px;
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  opacity: 0.1;
+ 
+}
+
+.overlap {
+  width: 100%;
+  height: 23px;
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: white;
+}
+
+.overlap:hover {
+  text-decoration: underline;
+}
+
+.photo__add, .microphone {
+  margin: auto 0;
+}
+
+.searh__icon:hover svg rect,
+.searh__icon:hover svg path {
+  transition: fill .5s, stroke .5s;
+}
+
+.searh__icon:hover svg path,
+.video__icon:hover svg path,
+.section__menu:hover svg path,
+.link__icon:hover svg path,
+.image__icon:hover svg path,
+.add__photo__icon:hover svg path {
+  stroke: black
+}
+
+.searh__icon:hover svg rect,
+.video__icon:hover svg rect,
+.three__dots:hover svg path,
+.smile__icon:hover svg path,
+.clip__icon:hover svg,
+.contact__icon:hover svg path,
+.microphone__icon:hover svg path,
+.file__icon:hover svg path,
+.audio__icon:hover svg path,
+.photo__icon:hover svg path,
+.add__files__icon:hover svg path,
+.survey__icon:hover svg {
+  fill: black
+}
+
+.microphone__icon {
+  margin-left: 16px;
+}
+
+/* drop-down__menu */
+.drop-down__menu {
+  position: absolute; 
+  top: 57px;
+  right: 13px;
+  width: 200px;
+  height: 150px;
+  padding: 10px;
+  background: white;
+  border: 1px solid;
+  border-radius: 8px; 
+  z-index: 1;
+}
+/* message */
+.message { 
+  margin: 4px;
+  padding: 10px;
+  box-sizing: content-box;
+  background: white;
+  border-radius: 5px;
+}
+
+.message__text { 
+  margin: 2px 0px;
+  word-break: break-all;   /* показывает, как делать перенос строк внутри слов, которые не помещаются по ширине в заданную область */
+}
+
+.message__file {
+  height: 45px;
+}
+
+.message__date {
+  position: relative;
+  bottom: -5px;
+  padding-left: 39px;
+  font-size: 12px;
+  text-align: end; 
+}
+
+.message__date__time {
+  bottom: -37px;
+}
+
+.message__img {
+  border-radius: 5px;
+}
+
+.message__audio {
+  display: inline-block;
+}
+
+.message__audio__img {
+  display: flex;
+}
+
+.message__file__img {
+  display: flex;
+}
+
+.message__picture {
+  width: 250px;
+}
+
+.message__time {
+  padding-left: 8px;
+  font-size: 11px;
+}
+
+.message__info {
+  display: flex;
+  margin: 0 8px;
+  font-size: 12px;
+}
+
+.chat::-webkit-scrollbar {
+  width: 0;
+}
+
+.add__files__title, .add__photo__title {
+  position: relative;
+  height: 22px;
+  width: 100px;
+}
+
+.preview__image {
+  width: 99%;
+  height: 95%;
+  object-fit: revert; /*управляет соотношением сторон заменяемых элементов, таких как <img> и <video>, когда у них задана ширина или высота, а также способом масштабирования */
+}
+
+.message__file__img {
+  display: contents;
+}
+
+.message__file {
+  height: 65px;
+}
+
+.message__image {
+  width: 50%;
+}
+
+.file__img {
+  width: 42px;
+  height: 42px;
+  background-image: url("../img/file.png");
+  background-position: center;
+  background-repeat: no-repeat;
+}
+
+.file__info {
+  display: flex;
+}
+
+.message__size {
+  font-size: 12px;
+}
+
+/* .popup */
+.popup__input {
+  width: 96%;
+  margin: 11px 0;
+  padding: 5px;
+  font-size: 16px;
+}
+
+.popup__btns {
+  display: flex;
+  justify-content: flex-end;
+  margin-top: 10px;
+}
+/* conteiner__files */
+
+.conteiner__files { 
+  width: 64%;
+  max-height: 250px;
+  position: absolute;
+  top: 55px;
+  right: 8px;
+  padding: 15px;
+  border: 1px solid;
+  background-color: #fcf8f8;
+  box-sizing: content-box;
+  border-radius: 12px;
+  overflow-y: scroll;
+  overflow-x: hidden;
+}
+
+.conteiner__files::-webkit-scrollbar {
+  width: 0;
+}
+
+.list__header {
+ text-align: center; 
+}
+
+.btn__close {
+  position: absolute;
+  right: 13px;
+  top: 13px;
+  border: none;
+  width: 35px;
+  border-radius: 19px;
+}
+
+.btn__close:hover {
+  background: #3c3a3a;
+  color: white;
+}
+
+/* menu */
+.input__title {
+  margin: 27px 0px;
+  padding: 6px;
+}
+
+.error__text {
+  position: relative;
+  top: -74px;
+  text-align: center;
+  color: red;
+  font-size: 14px;
+}
+
+.btn__send {
+  width: 127px;
+  margin: auto;
+}
+
+/* video */
+.video__recording { 
+  width: 250px;
+  height: 50px;
+  position: absolute;
+  right: 0;
+  padding: 10px;
+  background: #ffffff;
+  box-sizing: border-box;
+  border-radius: 5px;
+  z-index: 2;
+}
+.video__controll, .audio__controll {
+  display: flex;
+  justify-content: space-between;
+}
+
+.video__button__controll, .audio__button__controll {
+  position: absolute;
+  top: 129px;
+  left: 64px;
+}
+
+.video__record, .audio__record {
+  height: 28px;
+  border-radius: 6px;
+  margin-right: 9px;
+}
+.video__timer, .audio__timer {
+  position: relative;
+  top: -15px;
+}
+.audio__timer {
+  top: 6px;
+}
+
+.audio__recording {
+  width: 250px;
+  height: 50px; 
+  position: absolute;
+  right: 10px;
+  bottom: 56px;
+  padding: 10px;
+  background: #ffffff;
+  box-sizing: border-box;
+  border-radius: 5px;
+  z-index: 2;
+}
+
+.audio__button__controll {
+  position: absolute;
+  bottom: 55px;
+  right: 5px;
+  background: white;
+  z-index: 2;
+}
+
+.audio__record {
+  margin-right: 30px;
+}
+
+.code {
+  color: #b00000;
+}
