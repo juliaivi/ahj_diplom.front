@@ -1,3 +1,5 @@
+[![Build status](https://ci.appveyor.com/api/projects/status/mx56cakajy948mg4?svg=true)](https://ci.appveyor.com/project/juliaivi/ahj-diplom-front)
+
 ## Реализованные функции
 
 ### Обязательные для реализации функции (5/5)

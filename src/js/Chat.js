@@ -8,7 +8,8 @@ import settingReminders from './settingReminders';
 
 export default class Chat {
   constructor() {
-    this.request = new Fetch('http://localhost:3000/new-user');
+  this.request = new Fetch('https://ahj-diplom-back-th6d.onrender.com');
+    // this.request = new Fetch('http://localhost:3000/new-user');
     this.popup = document.querySelector('.popup');
     this.loginForm = document.querySelector('.login__form');
     this.popupForm = this.loginForm.querySelector('.popup__form');
@@ -271,7 +272,8 @@ export default class Chat {
 
   // web socket ...... поток который паралельно работает и рассылает всем сообщения
   wsActive() {
-    this.ws = new WebSocket('ws://localhost:3000/ws'); // запрос не корня, а ручку ws
+    this.ws = new WebSocket('wss://ahj-diplom-back-th6d.onrender.com/');
+    // this.ws = new WebSocket('ws://localhost:3000/ws'); // запрос не корня, а ручку ws
     this.ws.addEventListener('open', () => {
       console.log('ws open');
     });
