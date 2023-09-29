@@ -43,6 +43,7 @@ export default class Chat {
     this.audioRecord = this.audioRecording.querySelector('.audio__record');
     this.emoji = this.emojiContainer.querySelectorAll('.emoji');
     this.inputFormChat = this.formChat.querySelector('.form__chat__input');
+    this.clickLink = false;
   }
 
   init() {
@@ -86,7 +87,7 @@ export default class Chat {
     });
     this.chat.addEventListener('drop', (e) => this.addDrop(e));
     // .............end................... Drag & Drop
-    window.addEventListener('beforeunload', () => {
+    window.addEventListener('unload', () => { // заменила beforeunload на unload unload – пользователь почти ушёл, но мы всё ещё можем запустить некоторые операции, например, отправить статистику
       this.ws.send(JSON.stringify({ type: 'exit', name: this.userName, id: this.id }));
     });
   }
@@ -212,7 +213,6 @@ export default class Chat {
               this.wsActive();
 
               this.container.classList.remove('d__none'); // отображаем чат и участников
-              /// ///////////////////////////////....................посмотреть
               this.locationDefine.locate();
               if (this.locationDefine.latitude && this.locationDefine.longitude) {
                 creatBlokGeo(this.locationDefine.latitude, this.locationDefine.longitude);
@@ -284,6 +284,13 @@ export default class Chat {
 
     this.ws.addEventListener('message', (e) => {
       const data = JSON.parse(e.data);
+// тут допиала
+      if (this.clickLink == true) { // избавляет от ошибки при клике по ссылке
+        this.clickLink = false;
+        return;
+      }
+// конец ...тут допиала
+// ошибка при перезагрузке
       if (data instanceof Array && data[0].name !== undefined) {
         this.listUsers.replaceChildren();
         data.forEach((el) => {
@@ -371,6 +378,11 @@ export default class Chat {
       const addPhotoTitle = e.target.closest('.add__photo__title');
       addPhotoTitle.querySelector('input').dispatchEvent(new MouseEvent('click'));
     }
+    // тут допиала
+    if (e.target.closest('.message__text')) {
+      this.clickLink = true;
+    }
+    // конец тут допиала
   }
 
   onChange() {
