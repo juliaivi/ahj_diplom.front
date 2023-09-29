@@ -284,13 +284,13 @@ export default class Chat {
 
     this.ws.addEventListener('message', (e) => {
       const data = JSON.parse(e.data);
-// тут допиала
+      // тут допиала
       if (this.clickLink == true) { // избавляет от ошибки при клике по ссылке
         this.clickLink = false;
         return;
       }
-// конец ...тут допиала
-// ошибка при перезагрузке
+      // конец ...тут допиала
+      // ошибка при перезагрузке
       if (data instanceof Array && data[0].name !== undefined) {
         this.listUsers.replaceChildren();
         data.forEach((el) => {
