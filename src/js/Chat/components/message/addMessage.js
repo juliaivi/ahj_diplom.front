@@ -1,5 +1,5 @@
 import CheckText from './checkText';
-import niceBytes from './conversionSize';
+import conversionSize from './conversionSize';
 
 export default function addMessage(data, obj, el) {
   const chat = document.querySelector('.chat');
@@ -12,7 +12,7 @@ export default function addMessage(data, obj, el) {
   if (!emojiContainer.classList.contains('d__none')) {
     emojiContainer.classList.add('d__none');
   }
-  // удаление1 дочернего элемента. Если больше 10. При создании элементов.
+
   if (messageAll.length >= 10 && obj == 'send') {
     chat.firstElementChild.remove();
   }
@@ -22,7 +22,7 @@ export default function addMessage(data, obj, el) {
   }
 
   if (data.name !== undefined) {
-    if (data.name === el) { // логика на отображении я или не я message__container
+    if (data.name === el) {
       data.name = 'you';
       elements = 'connection__you';
     }
@@ -43,7 +43,7 @@ export default function addMessage(data, obj, el) {
                       <div class="file__img"></div>
                       <div class="message__info_file">
                         <a class="message__name" href="${data.url}" rel="noopener" download="${data.fileName}">${data.fileName}</a>
-                        <div class="message__size">${niceBytes(data.fileSize)}</div>
+                        <div class="message__size">${conversionSize(data.fileSize)}</div>
                       </div>
                     </div>`;
       break;
@@ -51,7 +51,6 @@ export default function addMessage(data, obj, el) {
       boxTextType = `<img class="preview__image" src="${data.url}" alt="альтернативный текст">`;
       break;
     case 'audio':
-      // download="${data.fileName}.webm" type='audio.webm'
       boxTextType = `
                       <audio class="audio" src="${data.url}" controls muted>
                      </audio>`;
@@ -65,18 +64,18 @@ export default function addMessage(data, obj, el) {
       boxTextType = '';
       break;
   }
-  const boxText = ` <div class="message message__${data.typesms} ${elements}" data-id="${data.dataId}">
-                    <div class="message__info ">
-                      <div class="message__user__name">${data.name} </div>
-                      <div class="message__time">${data.datatime} </div>
-                    </div>
-                    ${boxTextType}
-                  </div>
+  const boxText = ` <article class="message message__${data.typesms} ${elements}" data-id="${data.dataId}">
+                      <div class="message__info ">
+                        <div class="message__user__name">${data.name} </div>
+                        <div class="message__time">${data.datatime} </div>
+                      </div>
+                      ${boxTextType}
+                    </article>
   `;
 
   if (boxText !== undefined && obj == 'send') {
     chat.insertAdjacentHTML('beforeend', boxText);
-    chat.lastElementChild.scrollIntoView(false); // показывает самые новые сообщения, автоматический скрол
+    chat.lastElementChild.scrollIntoView(false);
   }
 
   if (boxText !== undefined && obj == 'allsms') {

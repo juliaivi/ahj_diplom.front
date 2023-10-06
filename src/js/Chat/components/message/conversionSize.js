@@ -1,4 +1,4 @@
-export default function niceBytes(x) {
+export default function conversionSize(x) {
   const units = ['bytes', 'KB', 'MB', 'GB', 'TB', 'PB', 'EB', 'ZB', 'YB'];
   let l = 0; let
     n = parseInt(x, 10) || 0;

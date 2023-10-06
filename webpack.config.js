@@ -1,7 +1,8 @@
 const path = require('path');
 const HTMLWebpackPlugin = require('html-webpack-plugin');
-const MiniCSSExtractPlugin = require('mini-css-extract-plugin');
-// const { CleanWebpackPlugin } = require('clean-webpack-plugin');
+const MiniCssExtractPlugin = require('mini-css-extract-plugin');
+const CssMinimizerPlugin = require('css-minimizer-webpack-plugin');
+
 
 module.exports = {
   context: path.resolve(__dirname, 'src'),
@@ -14,6 +15,16 @@ module.exports = {
     // assetModuleFilename: 'images/[hash][ext][query]',
   },
   // devtool: 'source-map',
+
+  optimization: {
+    minimize: true,
+    minimizer: [
+      new CssMinimizerPlugin({
+        test: /.css$/i,
+        parallel: true,
+      }),
+    ],
+  },
   module: {
     rules: [
       {
@@ -23,10 +34,34 @@ module.exports = {
       },
       {
         test: /\.css$/i,
-        use: [MiniCSSExtractPlugin.loader, 'css-loader'],
+        use: [MiniCssExtractPlugin.loader, 'css-loader'],
       },
       {
         test: /\.(png|svg|jpe?g|gif)$/i,
+        use: [
+          {
+            loader: 'image-webpack-loader',
+            options: {
+              mozjpeg: {
+                progressive: true,
+                quality: 63,
+              },
+              optipng: {
+                enabled: false,
+              },
+              pngquant: {
+                quality: [0.65, 0.90],
+                speed: 4,
+              },
+              gifsicle: {
+                interlaced: false,
+              },
+              webp: {
+                quality: 75,
+              },
+            },
+          },
+        ],
         type: 'asset/resource',
       },
     ],
@@ -36,9 +71,8 @@ module.exports = {
     new HTMLWebpackPlugin({
       template: './index.html',
     }),
-    new MiniCSSExtractPlugin({
+    new MiniCssExtractPlugin({
       filename: '[name].css',
     }),
-    // new CleanWebpackPlugin(),
   ],
 };

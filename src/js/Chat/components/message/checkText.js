@@ -15,7 +15,7 @@ export default class CheckText {
   }
 
   addLink(text) {
-    return text.replace(this.urlRegex, (url) => `<a href="${url}">${url}</a>`);
+    return text.replace(this.urlRegex, (url) => `<a href="${url}" target="_blank">${url}</a>`);
   }
 
   addCode(text) {

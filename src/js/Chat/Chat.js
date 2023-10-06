@@ -1,15 +1,15 @@
-import Fetch from './FetchUser';
-import addUserBlock from './addUserBlock';
-import addMessage from './addMessage';
-import CheckText from './checkText';
-import LocationDefine from './LocationDefine';
-import creatBlokGeo from './creatBlokGeo';
-import settingReminders from './settingReminders';
+import Fetch from './components/requests/Fetch';
+import addUserBlock from './components/authorization/addUserBlock';
+import addMessage from './components/message/addMessage';
+import CheckText from './components/message/checkText';
+import LocationDefine from './components/geo/locationDefine/LocationDefine';
+import creatBlokGeo from './components/geo/creatBlokGeo';
+import settingReminders from './components/notification/showNotification';
 
 export default class Chat {
   constructor() {
-    this.request = new Fetch('https://ahj-diplom-back-th6d.onrender.com/new-user');
-    // this.request = new Fetch('http://localhost:3000/new-user');
+    // this.request = new Fetch('https://ahj-diplom-back-th6d.onrender.com/new-user');
+    this.request = new Fetch('http://localhost:3000/new-user');
     this.popup = document.querySelector('.popup');
     this.loginForm = document.querySelector('.login__form');
     this.popupForm = this.loginForm.querySelector('.popup__form');
@@ -63,8 +63,6 @@ export default class Chat {
     this.inputTitle.addEventListener('input', (event) => this.onChange(event));
     this.chat.addEventListener('scroll', (e) => this.onScroll(e));
 
-    // ....... сохранение в истории изображений, видео и аудио (как файлов) через иконку загрузки
-
     this.fileInputAll.forEach((el) => {
       el.addEventListener('change', (e) => {
         this.clinMessage();
@@ -73,31 +71,28 @@ export default class Chat {
         if (e.target.closest('.add__files__title') || e.target.closest('.add__photo__title')) {
           this.url = URL.createObjectURL(el.files && el.files[0]);
           this.creatMessageObj(this.file, this.text, this.userName, this.id, this.url, this.countmessages, this.link, this.typesms);
-          // setTimeout(() => URL.revokeObjectURL(url), 1000); // отзовем юрл, когда браузер отобразит картинку и не сможем скачать ее((. В явном виде освобождаем место
         }
 
         if (!this.message) return;
         this.ws.send(JSON.stringify(this.message));
       });
     });
-    // ...end.... сохранение в истории изображений, видео и аудио (как файлов) через иконку загрузки
-    // .... Drag & Drop
+
     this.chat.addEventListener('dragover', (e) => {
       e.preventDefault();
     });
     this.chat.addEventListener('drop', (e) => this.addDrop(e));
-    // .............end................... Drag & Drop
-    window.addEventListener('unload', () => { // заменила beforeunload на unload unload – пользователь почти ушёл, но мы всё ещё можем запустить некоторые операции, например, отправить статистику
+
+    window.addEventListener('unload', () => {
       this.ws.send(JSON.stringify({ type: 'exit', name: this.userName, id: this.id }));
     });
   }
 
-  // .... Drag & Drop
   addDrop(e) {
     e.preventDefault();
     this.clinMessage();
     this.countmessages += 1;
-    if (e.target.closest('.message')) { // по существующей картинке, чтоб она она не дублировалась в посте
+    if (e.target.closest('.message')) {
       return;
     }
     this.file = e.dataTransfer.files && e.dataTransfer.files[0];
@@ -105,7 +100,6 @@ export default class Chat {
     this.url = URL.createObjectURL(e.dataTransfer.files && e.dataTransfer.files[0]);
     this.creatMessageObj(this.file, this.text, this.userName, this.id, this.url, this.countmessages, this.link, this.typesms);
 
-    // setTimeout(() => URL.revokeObjectURL(url), 1000); // отзовем юрл, когда браузер отобразит картинку. В явном виде освобождаем место
     if (!this.message) return;
     this.ws.send(JSON.stringify(this.message));
   }
@@ -114,7 +108,6 @@ export default class Chat {
     const simbol = e.target.textContent;
     const velueInput = this.inputFormChat.textContent.trim();
     this.inputFormChat.textContent = `${velueInput}  ${simbol}`;
-    console.log(this.inputFormChat.textContent);
   }
 
   clinMessage() {
@@ -168,10 +161,10 @@ export default class Chat {
 
   onScroll(e) {
     this.clinMessage();
-    const eventChildren = e.target.children; // все сообщения
-    const [firstChild] = e.target.children;// когда дойду до последнего (это будет первым сообщением)
-    const topCoordsChat = this.chat.getBoundingClientRect().top; // координаты верхнего окна чата
-    const firstChildCoordsMessage = eventChildren[0].getBoundingClientRect();// координаты первого сообщения
+    const eventChildren = e.target.children;
+    const [firstChild] = e.target.children;
+    const topCoordsChat = this.chat.getBoundingClientRect().top;
+    const firstChildCoordsMessage = eventChildren[0].getBoundingClientRect();
     let isVisible = false;
 
     if (firstChildCoordsMessage.bottom > topCoordsChat && this.oldElem < firstChildCoordsMessage.bottom && this.oldElem !== null) {
@@ -212,7 +205,7 @@ export default class Chat {
               this.data = el;
               this.wsActive();
 
-              this.container.classList.remove('d__none'); // отображаем чат и участников
+              this.container.classList.remove('d__none');
               this.locationDefine.locate();
               if (this.locationDefine.latitude && this.locationDefine.longitude) {
                 creatBlokGeo(this.locationDefine.latitude, this.locationDefine.longitude);
@@ -220,12 +213,11 @@ export default class Chat {
                 this.popup.classList.remove('d__none');
               }
             }
-            // напоминание
             settingReminders();
             this.cameraListener();
             this.microphoneListener();
 
-            if (status === 'error') { // такое имя есть
+            if (status === 'error') {
               const errorName = this.loginForm.querySelector('.error__name');
               errorName.classList.remove('d__none');
             }
@@ -233,13 +225,10 @@ export default class Chat {
       }
     }
 
-    // ......... обычные сообщения if (e.target.classList.contains('form__chat'))
     if (e.target.closest('.form__chat')) {
       const formChat = e.target.closest('.form__chat');
       const formChatInput = formChat.querySelector('.form__chat__input');
       const textFormChatInput = formChatInput.textContent.trim();
-      // проверка текста на ссылку
-      // ..........ссылки (http:// или https://) должны быть кликабельны и отображаться, как ссылки
       this.typesms = 'text';
       this.link = this.checkText.checkLink(textFormChatInput);
       const textCode = this.checkText.checkCode(textFormChatInput);
@@ -267,30 +256,25 @@ export default class Chat {
       if (!this.message) return;
       this.ws.send(JSON.stringify(this.message));
     }
-    // ....end......ссылки (http:// или https://) должны быть кликабельны и отображаться, как ссылки
   }
 
-  // web socket ...... поток который паралельно работает и рассылает всем сообщения
   wsActive() {
-    this.ws = new WebSocket('wss://ahj-diplom-back-th6d.onrender.com/');
-    // this.ws = new WebSocket('ws://localhost:3000/ws'); // запрос не корня, а ручку ws
+    // this.ws = new WebSocket('wss://ahj-diplom-back-th6d.onrender.com/');
+    this.ws = new WebSocket('ws://localhost:3000/ws');
     this.ws.addEventListener('open', () => {
-      console.log('ws open');
     });
 
     this.ws.addEventListener('close', () => {
-      console.log('ws close');
     });
 
     this.ws.addEventListener('message', (e) => {
       const data = JSON.parse(e.data);
-      // тут допиала
-      if (this.clickLink == true) { // избавляет от ошибки при клике по ссылке
+
+      if (this.clickLink == true) {
         this.clickLink = false;
         return;
       }
-      // конец ...тут допиала
-      // ошибка при перезагрузке
+
       if (data instanceof Array && data[0].name !== undefined) {
         this.listUsers.replaceChildren();
         data.forEach((el) => {
@@ -307,17 +291,12 @@ export default class Chat {
       if (data.type === 'send') {
         addMessage(data, data.type, this.userName);
       }
-
-      console.log('ws message');
     });
 
     this.ws.addEventListener('error', () => {
-      console.log('ws error');
+      throw new Error('ws error');
     });
   }
-  // ....end...web socket
-
-  // ....... закрытие открытие окон
 
   onClick(e) {
     const sectionListsFiles = document.querySelector('.section__lists__files');
@@ -378,11 +357,10 @@ export default class Chat {
       const addPhotoTitle = e.target.closest('.add__photo__title');
       addPhotoTitle.querySelector('input').dispatchEvent(new MouseEvent('click'));
     }
-    // тут допиала
+
     if (e.target.closest('.message__text')) {
       this.clickLink = true;
     }
-    // конец тут допиала
   }
 
   onChange() {
@@ -397,9 +375,8 @@ export default class Chat {
     }
   }
 
-  // ....ВИДЕО И АУДИО
   recordListener(e) {
-    if (!this.recorder || this.recorder.state === 'inactive') { // если рекордерпа нет или он не активный
+    if (!this.recorder || this.recorder.state === 'inactive') {
       if (e.target.classList.contains('video__record')) {
         this.typesms = 'video';
         this.addStream(this.typesms);
@@ -408,8 +385,8 @@ export default class Chat {
         this.addStream(this.typesms);
       }
     } else {
-      this.recorder.stop();// останавливаем запись
-      this.stream.getTracks().forEach((track) => track.stop());// остановка потока. Получив всех треков
+      this.recorder.stop();
+      this.stream.getTracks().forEach((track) => track.stop());
     }
   }
 
@@ -435,18 +412,18 @@ export default class Chat {
   async addStream(typesms) {
     this.clinMessage();
     if (typesms == 'video') {
-      this.stream = await navigator.mediaDevices.getUserMedia({ // указываем что хотим получить
+      this.stream = await navigator.mediaDevices.getUserMedia({
         audio: true,
-        video: true, // вернет промис, из-за этого завернуто в async
+        video: true,
       });
     } else {
-      this.stream = await navigator.mediaDevices.getUserMedia({ // указываем что хотим получить
+      this.stream = await navigator.mediaDevices.getUserMedia({
         audio: true,
-        video: false, // вернет промис, из-за этого завернуто в async
+        video: false,
       });
     }
-    this.recorder = new MediaRecorder(this.stream);// для проигрывание видео не сразу, а по нажатию кнопки
-    this.chunks = []; // хранилище
+    this.recorder = new MediaRecorder(this.stream);
+    this.chunks = [];
 
     this.recorder.addEventListener('start', () => {
       if (typesms == 'video') {
@@ -456,26 +433,24 @@ export default class Chat {
       }
     });
 
-    this.recorder.addEventListener('dataavailable', (e) => { // получение данных
+    this.recorder.addEventListener('dataavailable', (e) => {
       this.chunks.push(e.data);
-      // console.log('dataavailable');
     });
 
-    this.recorder.addEventListener('stop', async () => { // будет доступен массив чанков, т.е. кусочки данных
+    this.recorder.addEventListener('stop', async () => {
       if (typesms == 'video') {
         this.stopRecording(this.videoRecording, this.videoRecord, this.videoTimer);
       } else {
         this.stopRecording(this.audioRecording, this.audioRecord, this.audioTimer);
       }
 
-      // console.log('recording stopped');
       let blob;
       if (typesms == 'video') {
-        blob = new Blob(this.chunks, { type: 'video/mp4' }); // целый файл в двоичном формате
+        blob = new Blob(this.chunks, { type: 'video/mp4' });
       } else {
-        blob = new Blob(this.chunks, { type: 'audio/mp3;' }); // целый файл в двоичном формате  { type: 'audio/webm' }); // присваеваем поток {type: 'audio/ogg; codecs=opus'} { type: 'audio/mp3;'}
+        blob = new Blob(this.chunks, { type: 'audio/mp3;' });
       }
-      this.url = URL.createObjectURL(blob); // присваеваем поток
+      this.url = URL.createObjectURL(blob);
       this.file = blob;
       this.countmessages += 1;
       this.creatMessageObj(this.file, this.text, this.userName, this.id, this.url, this.countmessages, this.link, this.typesms);
@@ -483,7 +458,7 @@ export default class Chat {
       if (!this.message) return;
       this.ws.send(JSON.stringify(this.message));
     });
-    this.recorder.start();// запуск рекордера. Чтоб запись стартовала нужно вызвать явно
+    this.recorder.start();
   }
 
   startRecording(el, typesms) {
@@ -495,7 +470,6 @@ export default class Chat {
       }
       el.textContent = 'Остановка';
     }
-    // console.log('recording started');
   }
 
   stopRecording(el, el2, timer) {
@@ -510,5 +484,4 @@ export default class Chat {
       clearInterval(this.timer);
     }
   }
-  // end....ВИДЕО И АУДИО
 }

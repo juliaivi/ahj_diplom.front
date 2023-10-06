@@ -1,6 +1,6 @@
-import dataPopup from './dataPopup';
+import dataPopup from '../../../../database/dataPopup';
 import checkValueGeo from './checkValueGeo';
-import creatBlokGeo from './creatBlokGeo';
+import creatBlokGeo from '../creatBlokGeo';
 
 export default class LocationDefine {
   constructor() {
@@ -16,24 +16,22 @@ export default class LocationDefine {
 
   locate() {
     if (navigator.geolocation) {
-      navigator.geolocation.getCurrentPosition((data) => { // получаем широту и долготу
+      navigator.geolocation.getCurrentPosition((data) => {
         this.latitude = data.coords.latitude;
         this.longitude = data.coords.longitude;
         this.geo = true;
         creatBlokGeo(this.latitude, this.longitude);
-      }, (err) => {
+      }, () => {
         if (this.geolocationPopup.classList.contains('d__none')) {
           this.geolocationPopup.classList.remove('d__none');
         }
         this.popupBtns.addEventListener('click', (e) => this.onClick(e));
-        console.log(err);
       });
     }
   }
 
   onClick(e) {
     e.preventDefault();
-    console.log(this.popupInput);
     this.formInputValue = this.popupInput.value.trim();
     const inputValue = this.popupInput.value;
     const checkInputValue = checkValueGeo(inputValue);
